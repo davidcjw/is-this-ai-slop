@@ -4,54 +4,54 @@ import { motion } from "framer-motion";
 import Analyzer from "@/components/Analyzer";
 
 const TELLS = [
-  "purple→blue gradient",
-  "Geist font",
-  "“Seamlessly integrate”",
-  "shadcn/ui Button",
-  "rounded-2xl everything",
-  "Lucide icons",
-  "“Get Started for free”",
-  "em-dash overdose",
-  "3-card feature grid",
-  "glassmorphism",
-  "“Supercharge your workflow”",
-  "Made with v0",
-  "gradient clip-text headline",
-  "“It's not just X, it's Y”",
-  "Lorem ipsum leftovers",
-  "Vercel default deploy",
+  "the purple gradient",
+  "default sans-serif",
+  "buzzword verbs",
+  "stock UI buttons",
+  "everything over-rounded",
+  "the default icon set",
+  "boilerplate CTAs",
+  "punctuation tics",
+  "the three-card grid",
+  "frosted-glass panels",
+  "growth-hack headlines",
+  "leftover builder badges",
+  "gradient headline text",
+  "the X-not-Y line",
+  "filler placeholder copy",
+  "the default deploy host",
 ];
 
 const METHOD = [
   {
     n: "01",
     title: "Builder watermarks",
-    body: "v0, Lovable, Bolt, Framer and Webflow all leave fingerprints — meta tags, asset paths, leftover “Made with” badges. The loudest tell there is.",
+    body: "Site builders and no-code tools all leave fingerprints: meta tags, telltale asset paths, the badge nobody bothered to remove. The loudest signal there is.",
   },
   {
     n: "02",
     title: "Default stack",
-    body: "Next.js + Tailwind + shadcn/ui + Lucide + Geist is the reflex an agent reaches for. Use it untouched and you wear the uniform.",
+    body: "One framework, one CSS kit, one component library, one icon set, one font. The reflex an agent reaches for. Use it untouched and you wear the uniform.",
   },
   {
     n: "03",
-    title: "The LLM voice",
-    body: "“Seamlessly”, “Effortlessly”, “Elevate”, “Supercharge”, the em-dash habit, and the “it's not just X, it's Y” move. Models have a tell.",
+    title: "The model's voice",
+    body: "A handful of verbs every model loves, the compulsive punctuation habit, and that one rhetorical move where nothing is ever just itself. Machines have a tell.",
   },
   {
     n: "04",
     title: "Structural clichés",
-    body: "Hero → three feature cards → testimonials → pricing → CTA. The same skeleton, generated a million times over.",
+    body: "Big hero, a row of three cards, a wall of glowing quotes, a plan table, one final call to action. The same skeleton, generated a million times over.",
   },
   {
     n: "05",
     title: "Visual defaults",
-    body: "The obligatory purple gradient, the glass card, the heavy rounded corners. Comfortable, safe, and instantly recognisable.",
+    body: "The obligatory cool-toned gradient, the glass card, the heavy rounded corners. Comfortable, safe, and instantly recognisable.",
   },
   {
     n: "06",
     title: "Placeholder residue",
-    body: "Lorem ipsum, example.com, John Doe, an Unsplash hero, an untouched “Create Next App” title. Nobody filled it in.",
+    body: "Filler text nobody replaced, a sample email, a made-up name, a stock photo, the starter title still sitting in the tab. Nobody finished the job.",
   },
 ];
 
@@ -125,9 +125,9 @@ export default function Home() {
           animate="show"
           className="mt-6 max-w-xl text-lg leading-relaxed text-ink-soft"
         >
-          Paste a link. We fingerprint the default agent house style — the
-          watermarks, the stock copy, the purple gradient — and hand you a
-          brutally honest <span className="font-semibold text-ink">0–100 slop score</span>.
+          Paste a link. We fingerprint the default agent house style: the
+          watermarks, the stock copy, the obligatory gradient. Then we hand you
+          a brutally honest <span className="font-semibold text-ink">0–100 slop score</span>.
         </motion.p>
 
         {/* The hook: input lives right here, above the fold */}
@@ -212,8 +212,8 @@ export default function Home() {
       <footer className="border-t border-line">
         <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-3 px-5 py-8 font-mono text-xs text-ink-soft sm:flex-row sm:items-center">
           <p>
-            Slop Lab — a heuristic toy, not a tribunal. Score reflects{" "}
-            <span className="text-ink">visual &amp; structural sameness</span>, not quality.
+            Slop Lab: a heuristic toy, not a tribunal. The score reflects{" "}
+            <span className="text-ink">visual and structural sameness</span>, not quality.
           </p>
           <p className="text-ink-soft/70">Built, ironically, by an AI.</p>
         </div>
