@@ -61,6 +61,8 @@ registry and it's automatically included.
 ## Run locally
 
 ```bash
+git clone https://github.com/davidcjw/is-this-ai-slop.git
+cd is-this-ai-slop
 npm install
 npm run dev      # http://localhost:3000
 ```
@@ -87,6 +89,13 @@ Returns the full `AnalysisResult` (score, verdict, per-category breakdown, top
 signals). Results are cached per URL for 1h (Next.js Data Cache) and served with
 `Cache-Control: public, s-maxage=3600, stale-while-revalidate=86400`, so repeat
 lookups are near-instant. Private/localhost ranges are blocked to prevent SSRF.
+
+## SEO & hardening
+
+- Auto-generated **OG / Twitter card** (`opengraph-image`), `robots.txt`, and
+  `sitemap.xml`; `WebApplication` **JSON-LD** + canonical URL and theme-color.
+- Security headers (HSTS, `nosniff`, `X-Frame-Options: DENY`, Referrer-Policy,
+  Permissions-Policy) set in `next.config.ts`; `X-Powered-By` disabled.
 
 ## Deploy
 
