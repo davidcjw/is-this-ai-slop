@@ -1,5 +1,16 @@
 # Is This AI Generated? — Slop Lab
 
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?logo=typescript&logoColor=white)
+[![Live](https://img.shields.io/badge/live-is--this--ai--slop.davidcjw.com-e8431c)](https://is-this-ai-slop.davidcjw.com)
+
+> **[Try it live → is-this-ai-slop.davidcjw.com](https://is-this-ai-slop.davidcjw.com)**
+
+<p align="center">
+  <img src="docs/demo.png" alt="Is This AI Generated? — paste a URL and get a 0–100 slop score" width="720">
+</p>
+
 Paste any website URL and get a brutally honest **0–100 forensic score** of how
 cookie-cutter and AI-generated it looks. We fingerprint the *default agent house
 style* — the builder watermarks, the stock copy, the obligatory purple gradient —
@@ -69,6 +80,35 @@ localhost ranges are blocked to prevent SSRF.
 
 Optimised for [Vercel](https://vercel.com). Push to GitHub and import the repo —
 every push to `main` auto-deploys.
+
+## Roadmap
+
+- [ ] Shareable result cards (OG image per scanned URL)
+- [ ] "Why this score?" deep-link to each triggered detector
+- [ ] Optional JS-rendered fetch for SPA-heavy sites
+- [ ] Public API rate limiting + caching
+
+## Contributing
+
+Contributions are welcome! Please open an issue first to discuss what you'd like to change.
+
+1. Fork the repo
+2. Create a feature branch (`git checkout -b feature/your-feature`)
+3. Commit your changes (`git commit -m 'feat: describe change'`)
+4. Push and open a pull request
+
+New detectors are easy: add a `Detector` to the relevant registry in
+[`src/lib/analyzer.ts`](src/lib/analyzer.ts) and it's picked up automatically.
+Please make sure `npm run build` and `npm run lint` pass before submitting a PR.
+
+## Code of Conduct
+
+This project follows the [Contributor Covenant v2.1](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).
+By participating you agree to uphold a welcoming, harassment-free environment.
+
+## License
+
+Distributed under the MIT License. See [LICENSE](LICENSE) for details.
 
 ---
 
