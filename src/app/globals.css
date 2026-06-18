@@ -1,26 +1,77 @@
 @import "tailwindcss";
 
+/* ------------------------------------------------------------------ *
+ * Forensic-lab / editorial theme. Warm bone paper, ink black, a single
+ * vermillion alarm accent. Deliberately NOT the purple-gradient AI look.
+ * ------------------------------------------------------------------ */
+@theme {
+  --color-paper: #f3ede1;
+  --color-paper-deep: #e9e0cf;
+  --color-ink: #17140f;
+  --color-ink-soft: #4a4435;
+  --color-vermillion: #e8431c;
+  --color-vermillion-deep: #c0330f;
+  --color-amber: #d39114;
+  --color-olive: #5b6b3a;
+  --color-forest: #2f5d3a;
+  --color-line: #cfc4ac;
+
+  --font-display: var(--font-display), ui-serif, Georgia, serif;
+  --font-body: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-mono), ui-monospace, "SF Mono", monospace;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  /* Subtle paper grain so the background isn't a dead flat fill. */
+  background-image:
+    radial-gradient(rgba(23, 20, 15, 0.035) 1px, transparent 1px),
+    radial-gradient(rgba(23, 20, 15, 0.02) 1px, transparent 1px);
+  background-size: 22px 22px, 11px 11px;
+  background-position: 0 0, 6px 6px;
+}
+
+::selection {
+  background: var(--color-vermillion);
+  color: var(--color-paper);
+}
+
+/* Marquee for the strip of detected "tells". */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.animate-marquee {
+  animation: marquee 38s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none;
+  }
+}
+
+/* Thin rule used as a section divider. */
+.hairline {
+  border-color: var(--color-line);
 }

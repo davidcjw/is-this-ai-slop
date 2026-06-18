@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Is This AI Generated? — Slop Lab
 
-## Getting Started
+Paste any website URL and get a brutally honest **0–100 forensic score** of how
+cookie-cutter and AI-generated it looks. We fingerprint the *default agent house
+style* — the builder watermarks, the stock copy, the obligatory purple gradient —
+and hand you an explainable verdict with the receipts.
 
-First, run the development server:
+> A heuristic toy, not a tribunal. The score reflects **visual & structural
+> sameness**, not quality. Plenty of great sites are AI-built; plenty of slop is
+> handmade.
+
+## How the scoring works
+
+The engine fetches a page server-side (no JS rendering) and runs ~20 detectors
+across six weighted categories. Each category is capped so no single dimension
+runs away with the score.
+
+| Category | Max | What it sniffs |
+|---|--:|---|
+| 🏷️ Builder watermarks | 35 | v0, Lovable, Bolt, Framer, Webflow, Wix fingerprints; `meta generator`; Next.js + Vercel defaults; leftover "Made with…" badges |
+| 🧱 Default stack | 22 | Tailwind utility-class density, shadcn/ui used verbatim, Lucide icons, Geist/Inter fonts |
+| ✍️ AI copywriting tells | 24 | LLM buzzwords ("seamlessly", "supercharge", "elevate"…), "it's not just X, it's Y", em-dash density, boilerplate CTAs, tricolon taglines |
+| 📐 Structural clichés | 16 | The hero→features→testimonials→pricing→CTA skeleton, emoji headings, repeated rounded/shadow card grids |
+| 🎨 Visual defaults | 16 | The purple/indigo→blue gradient, gradient clip-text headlines, glassmorphism + heavy rounding |
+| 🚧 Placeholder residue | 12 | Lorem ipsum, `example.com`, John Doe, Unsplash stock heroes, untouched "Create Next App" titles |
+
+Verdict bands: **Suspiciously Human** (0–18) · **Mostly Handcrafted** (19–38) ·
+**AI-Assisted** (39–58) · **Heavily AI-Generated** (59–78) · **Textbook AI Slop** (79–100).
+
+Detector logic lives in [`src/lib/analyzer.ts`](src/lib/analyzer.ts) — pure,
+side-effect-free, and easy to extend. Add a new `Detector` to the relevant
+registry and it's automatically included.
+
+## Stack
+
+- **Next.js 16** (App Router) + **TypeScript**
+- **Tailwind v4** with a custom editorial/forensic theme (warm bone paper, ink, a
+  single vermillion accent — deliberately built to score *low* on its own detector)
+- **Framer Motion** for the hero reveal, score count-up, and staggered evidence log
+- Fonts: **Instrument Serif** (display), **Hanken Grotesk** (body), **Space Mono** (data)
+- Zero external APIs — the analyzer runs in a Node API route, so it's free to host
+
+## Run locally
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+```bash
+npm run build    # production build
+npm run lint     # eslint
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## API
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+`POST /api/analyze` with `{ "url": "example.com" }` returns the full
+`AnalysisResult` (score, verdict, per-category breakdown, top signals). Private/
+localhost ranges are blocked to prevent SSRF.
 
-## Learn More
+## Deploy
 
-To learn more about Next.js, take a look at the following resources:
+Optimised for [Vercel](https://vercel.com). Push to GitHub and import the repo —
+every push to `main` auto-deploys.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Built, ironically, by an AI.

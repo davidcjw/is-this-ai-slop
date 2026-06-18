@@ -1,65 +1,223 @@
-import Image from "next/image";
+"use client";
+
+import { motion } from "framer-motion";
+import Analyzer from "@/components/Analyzer";
+
+const TELLS = [
+  "purple→blue gradient",
+  "Geist font",
+  "“Seamlessly integrate”",
+  "shadcn/ui Button",
+  "rounded-2xl everything",
+  "Lucide icons",
+  "“Get Started for free”",
+  "em-dash overdose",
+  "3-card feature grid",
+  "glassmorphism",
+  "“Supercharge your workflow”",
+  "Made with v0",
+  "gradient clip-text headline",
+  "“It's not just X, it's Y”",
+  "Lorem ipsum leftovers",
+  "Vercel default deploy",
+];
+
+const METHOD = [
+  {
+    n: "01",
+    title: "Builder watermarks",
+    body: "v0, Lovable, Bolt, Framer and Webflow all leave fingerprints — meta tags, asset paths, leftover “Made with” badges. The loudest tell there is.",
+  },
+  {
+    n: "02",
+    title: "Default stack",
+    body: "Next.js + Tailwind + shadcn/ui + Lucide + Geist is the reflex an agent reaches for. Use it untouched and you wear the uniform.",
+  },
+  {
+    n: "03",
+    title: "The LLM voice",
+    body: "“Seamlessly”, “Effortlessly”, “Elevate”, “Supercharge”, the em-dash habit, and the “it's not just X, it's Y” move. Models have a tell.",
+  },
+  {
+    n: "04",
+    title: "Structural clichés",
+    body: "Hero → three feature cards → testimonials → pricing → CTA. The same skeleton, generated a million times over.",
+  },
+  {
+    n: "05",
+    title: "Visual defaults",
+    body: "The obligatory purple gradient, the glass card, the heavy rounded corners. Comfortable, safe, and instantly recognisable.",
+  },
+  {
+    n: "06",
+    title: "Placeholder residue",
+    body: "Lorem ipsum, example.com, John Doe, an Unsplash hero, an untouched “Create Next App” title. Nobody filled it in.",
+  },
+];
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  show: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: i * 0.08, duration: 0.6, ease: [0.16, 1, 0.3, 1] as const },
+  }),
+};
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+    <main className="relative overflow-x-hidden">
+      {/* Top bar */}
+      <header className="mx-auto flex max-w-6xl items-center justify-between px-5 py-5">
+        <div className="flex items-center gap-2.5">
+          <span className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-ink">
+            <span className="h-2 w-2 rounded-full bg-vermillion" />
+          </span>
+          <span className="font-mono text-xs font-bold uppercase tracking-[0.2em]">
+            Slop Lab
+          </span>
+        </div>
+        <a
+          href="#method"
+          className="font-mono text-xs uppercase tracking-[0.15em] text-ink-soft transition-colors hover:text-ink"
+        >
+          The method ↓
+        </a>
+      </header>
+
+      {/* HERO */}
+      <section className="relative mx-auto max-w-6xl px-5 pb-10 pt-10 sm:pt-16">
+        <motion.p
+          custom={0}
+          variants={fadeUp}
+          initial="hidden"
+          animate="show"
+          className="mb-6 inline-flex items-center gap-2 border border-line px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.18em] text-ink-soft"
+        >
+          <span className="h-1.5 w-1.5 rounded-full bg-vermillion" />
+          Forensic website authenticity report
+        </motion.p>
+
+        <motion.h1
+          custom={1}
+          variants={fadeUp}
+          initial="hidden"
+          animate="show"
+          className="max-w-4xl font-display text-[3.4rem] leading-[0.92] tracking-tight sm:text-[6rem]"
+        >
+          Is this website{" "}
+          <span className="relative inline-block italic text-vermillion">
+            AI-generated
+            <motion.span
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ delay: 0.7, duration: 0.5, ease: "easeOut" }}
+              className="absolute -bottom-1 left-0 h-[3px] w-full origin-left bg-vermillion"
+            />
+          </span>
+          , or did a human actually make it?
+        </motion.h1>
+
+        <motion.p
+          custom={2}
+          variants={fadeUp}
+          initial="hidden"
+          animate="show"
+          className="mt-6 max-w-xl text-lg leading-relaxed text-ink-soft"
+        >
+          Paste a link. We fingerprint the default agent house style — the
+          watermarks, the stock copy, the purple gradient — and hand you a
+          brutally honest <span className="font-semibold text-ink">0–100 slop score</span>.
+        </motion.p>
+
+        {/* The hook: input lives right here, above the fold */}
+        <motion.div
+          custom={3}
+          variants={fadeUp}
+          initial="hidden"
+          animate="show"
+          className="mt-10"
+        >
+          <Analyzer />
+        </motion.div>
+      </section>
+
+      {/* MARQUEE of tells */}
+      <section className="mt-8 border-y border-ink bg-ink py-3 text-paper">
+        <div className="flex w-max animate-marquee whitespace-nowrap">
+          {[...TELLS, ...TELLS].map((t, i) => (
+            <span
+              key={i}
+              className="mx-5 inline-flex items-center gap-3 font-mono text-sm text-paper/80"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+              <span className="text-vermillion">✕</span>
+              {t}
+            </span>
+          ))}
+        </div>
+      </section>
+
+      {/* METHOD */}
+      <section id="method" className="mx-auto max-w-6xl px-5 py-20">
+        <div className="mb-12 max-w-2xl">
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-vermillion">
+            What we look for
+          </p>
+          <h2 className="mt-3 font-display text-4xl leading-tight sm:text-5xl">
+            Six dimensions of telltale sameness.
+          </h2>
+          <p className="mt-4 text-ink-soft">
+            None of these are crimes on their own. Pile enough of them up with
+            zero customisation, though, and the site starts to look like every
+            other thing an agent shipped that week.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
+
+        <div className="grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
+          {METHOD.map((m, i) => (
+            <motion.article
+              key={m.n}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ delay: (i % 3) * 0.06, duration: 0.5 }}
+              className="group bg-paper p-7 transition-colors hover:bg-paper-deep"
+            >
+              <div className="flex items-baseline justify-between">
+                <span className="font-mono text-sm text-vermillion">{m.n}</span>
+                <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-ink-soft opacity-0 transition-opacity group-hover:opacity-100">
+                  signal
+                </span>
+              </div>
+              <h3 className="mt-4 font-display text-2xl leading-tight">{m.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-ink-soft">{m.body}</p>
+            </motion.article>
+          ))}
+        </div>
+
+        <div className="mt-12 flex flex-col items-start gap-4 border border-ink bg-paper p-7 sm:flex-row sm:items-center sm:justify-between">
+          <p className="max-w-md font-display text-2xl leading-tight">
+            Enough theory. Go put a site under the microscope.
+          </p>
           <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#scan"
+            className="shrink-0 cursor-pointer border border-ink bg-ink px-7 py-3 font-mono text-sm font-bold uppercase tracking-[0.15em] text-paper transition-colors hover:bg-vermillion hover:border-vermillion"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
+            ↑ Scan a URL
           </a>
         </div>
-      </main>
-    </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer className="border-t border-line">
+        <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-3 px-5 py-8 font-mono text-xs text-ink-soft sm:flex-row sm:items-center">
+          <p>
+            Slop Lab — a heuristic toy, not a tribunal. Score reflects{" "}
+            <span className="text-ink">visual &amp; structural sameness</span>, not quality.
+          </p>
+          <p className="text-ink-soft/70">Built, ironically, by an AI.</p>
+        </div>
+      </footer>
+    </main>
   );
 }
