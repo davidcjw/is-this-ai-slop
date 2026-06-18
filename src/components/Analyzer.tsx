@@ -226,8 +226,8 @@ export default function Analyzer() {
           >
             <form onSubmit={run} className="relative">
               <div className="flex flex-col gap-3 sm:flex-row">
-                <div className="relative flex-1">
-                  <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 font-mono text-sm text-ink-soft">
+                <div className="flex h-14 flex-1 items-center border border-ink bg-paper focus-within:border-vermillion focus-within:ring-2 focus-within:ring-vermillion/30">
+                  <span className="shrink-0 select-none pl-4 pr-0.5 font-mono text-sm text-ink-soft/70">
                     https://
                   </span>
                   <input
@@ -240,7 +240,7 @@ export default function Analyzer() {
                     onChange={(e) => setUrl(e.target.value)}
                     placeholder="paste-any-website.com"
                     disabled={status === "loading"}
-                    className="h-14 w-full border border-ink bg-paper pl-[4.7rem] pr-4 font-mono text-base text-ink placeholder:text-ink-soft/50 focus:border-vermillion focus:outline-none focus:ring-2 focus:ring-vermillion/30 disabled:opacity-60"
+                    className="h-full w-full min-w-0 flex-1 bg-transparent pr-4 font-mono text-base text-ink placeholder:text-ink-soft/50 focus:outline-none disabled:opacity-60"
                   />
                 </div>
                 <button
