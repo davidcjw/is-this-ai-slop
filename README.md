@@ -72,9 +72,21 @@ npm run lint     # eslint
 
 ## API
 
-`POST /api/analyze` with `{ "url": "example.com" }` returns the full
-`AnalysisResult` (score, verdict, per-category breakdown, top signals). Private/
-localhost ranges are blocked to prevent SSRF.
+Two ways in, same payload:
+
+```bash
+# Public, CDN-cacheable GET — easy to share
+curl "https://is-this-ai-slop.davidcjw.com/api/analyze?url=stripe.com"
+
+# POST (used by the app)
+curl -X POST https://is-this-ai-slop.davidcjw.com/api/analyze \
+  -H "Content-Type: application/json" -d '{"url":"stripe.com"}'
+```
+
+Returns the full `AnalysisResult` (score, verdict, per-category breakdown, top
+signals). Results are cached per URL for 1h (Next.js Data Cache) and served with
+`Cache-Control: public, s-maxage=3600, stale-while-revalidate=86400`, so repeat
+lookups are near-instant. Private/localhost ranges are blocked to prevent SSRF.
 
 ## Deploy
 
@@ -83,10 +95,11 @@ every push to `main` auto-deploys.
 
 ## Roadmap
 
-- [ ] Shareable result cards (OG image per scanned URL)
+- [x] Public API caching (Data Cache + CDN `s-maxage`) + shareable OG card
+- [ ] Per-URL OG images (live score baked into the social card)
 - [ ] "Why this score?" deep-link to each triggered detector
 - [ ] Optional JS-rendered fetch for SPA-heavy sites
-- [ ] Public API rate limiting + caching
+- [ ] Public API rate limiting (edge/Upstash)
 
 ## Contributing
 

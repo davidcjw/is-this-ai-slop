@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Instrument_Serif, Hanken_Grotesk, Space_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -30,20 +30,33 @@ export const metadata: Metadata = {
   title: "Is This AI Generated? — The website slop detector",
   description:
     "Paste any URL and get a 0–100 forensic score of how cookie-cutter and AI-generated a website looks. We fingerprint the default agent house style.",
+  applicationName: "Slop Lab",
+  authors: [{ name: "David", url: "https://github.com/davidcjw" }],
+  creator: "David",
+  category: "technology",
   keywords: [
     "AI generated website",
     "AI slop detector",
+    "is this AI generated",
+    "AI website checker",
     "v0",
     "Lovable",
     "vibe coding",
     "website analyzer",
   ],
+  alternates: { canonical: "/" },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+  },
   openGraph: {
     title: "Is This AI Generated? — The website slop detector",
     description:
       "Paste a URL, get a forensic 0–100 verdict on how AI-generated a site looks.",
     url: SITE,
     siteName: "Is This AI Generated?",
+    locale: "en_US",
     type: "website",
   },
   twitter: {
@@ -54,6 +67,24 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  themeColor: "#f3ede1",
+  colorScheme: "light",
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: "Is This AI Generated? — Slop Lab",
+  url: SITE,
+  applicationCategory: "DeveloperApplication",
+  operatingSystem: "Any (web)",
+  description:
+    "Paste any URL and get a 0–100 forensic score of how cookie-cutter and AI-generated a website looks.",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  author: { "@type": "Person", name: "David", url: "https://github.com/davidcjw" },
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -62,6 +93,10 @@ export default function RootLayout({
       <body
         className={`${displaySerif.variable} ${bodySans.variable} ${mono.variable} min-h-full antialiased`}
       >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         {children}
       </body>
     </html>
