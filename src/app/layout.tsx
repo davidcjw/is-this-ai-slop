@@ -23,7 +23,7 @@ const mono = Space_Mono({
   display: "swap",
 });
 
-const SITE = "https://is-this-ai-generated.vercel.app";
+const SITE = "https://is-this-ai-slop.davidcjw.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
