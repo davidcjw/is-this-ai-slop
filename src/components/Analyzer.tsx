@@ -20,6 +20,12 @@ const SCAN_PHASES = [
   "Compiling the verdict…",
 ];
 
+/** The field already shows a "https://" prefix — strip any protocol the user
+ * pastes or types so we don't end up with a duplicated "https://https://". */
+function sanitizeUrlInput(v: string): string {
+  return v.replace(/^\s*https?:\/\//i, "");
+}
+
 function verdictColor(score: number): string {
   if (score <= 38) return "var(--color-forest)";
   if (score <= 58) return "var(--color-olive)";
@@ -235,9 +241,12 @@ export default function Analyzer() {
                     type="text"
                     inputMode="url"
                     autoComplete="url"
+                    autoCapitalize="none"
+                    autoCorrect="off"
+                    spellCheck={false}
                     aria-label="Website URL to analyze"
                     value={url}
-                    onChange={(e) => setUrl(e.target.value)}
+                    onChange={(e) => setUrl(sanitizeUrlInput(e.target.value))}
                     placeholder="paste-any-website.com"
                     disabled={status === "loading"}
                     className="h-full w-full min-w-0 flex-1 bg-transparent pr-4 font-mono text-base text-ink placeholder:text-ink-soft/50 focus:outline-none disabled:opacity-60"
