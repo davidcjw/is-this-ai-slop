@@ -17,12 +17,19 @@ runs away with the score.
 
 | Category | Max | What it sniffs |
 |---|--:|---|
-| 🏷️ Builder watermarks | 35 | v0, Lovable, Bolt, Framer, Webflow, Wix fingerprints; `meta generator`; Next.js + Vercel defaults; leftover "Made with…" badges |
-| 🧱 Default stack | 22 | Tailwind utility-class density, shadcn/ui used verbatim, Lucide icons, Geist/Inter fonts |
+| 🏷️ Builder watermarks | 35 | v0, Lovable, Bolt, Framer, Webflow, Wix fingerprints; `meta generator`; leftover "Made with…" badges; Next.js **only when shipped with stock defaults** |
+| 🧱 Default stack | 22 | shadcn/ui used verbatim, Lucide icons, Geist/Inter fonts; Tailwind **only when run with the stock theme** |
 | ✍️ AI copywriting tells | 24 | LLM buzzwords ("seamlessly", "supercharge", "elevate"…), "it's not just X, it's Y", em-dash density, boilerplate CTAs, tricolon taglines |
 | 📐 Structural clichés | 16 | The hero→features→testimonials→pricing→CTA skeleton, emoji headings, repeated rounded/shadow card grids |
 | 🎨 Visual defaults | 16 | The purple/indigo→blue gradient, gradient clip-text headlines, glassmorphism + heavy rounding |
 | 🚧 Placeholder residue | 12 | Lorem ipsum, `example.com`, John Doe, Unsplash stock heroes, untouched "Create Next App" titles |
+
+**A note on stack choice.** Using Next.js, Tailwind or Vercel is *not* a tell —
+they run countless hand-crafted sites, so penalising them just punishes
+popularity. The tell is using them with the **defaults left untouched**. So the
+framework signals only score when the site *also* ships stock markers (the
+shadcn theme, Geist/Inter, the default gradient); a modern stack paired with
+real design effort scores nothing. Hosting platform is ignored entirely.
 
 Verdict bands: **Suspiciously Human** (0–18) · **Mostly Handcrafted** (19–38) ·
 **AI-Assisted** (39–58) · **Heavily AI-Generated** (59–78) · **Textbook AI Slop** (79–100).

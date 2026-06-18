@@ -105,6 +105,31 @@ interface Ctx {
 
 type Detector = (ctx: Ctx) => Signal | null;
 
+/**
+ * "Left the defaults untouched" markers.
+ *
+ * Using a modern framework isn't a tell — Next.js, Tailwind and Vercel run
+ * countless hand-crafted sites. The tell is using them with the STOCK theme
+ * and never customising anything. So the framework signals below (Next.js,
+ * Tailwind) only score when at least one of these markers is also present.
+ * A modern stack paired with real design effort scores nothing.
+ */
+function uncustomizedMarkers(c: Ctx): string[] {
+  const m: string[] = [];
+  if (
+    /data-slot=|bg-(?:primary|secondary|muted|accent|destructive)\b|text-(?:primary|muted)-foreground|inline-flex items-center justify-center (?:gap-2 )?whitespace-nowrap rounded-md|border-input|focus-visible:ring-/.test(
+      c.html
+    )
+  )
+    m.push("stock shadcn/ui theme");
+  if (/--font-geist|\bgeist(?:-sans|-mono)?\b|fonts\.googleapis\.com[^"']*Inter|font-inter|"Inter"/i.test(c.html))
+    m.push("default Geist/Inter font");
+  if (/\blucide(?:-react)?\b/i.test(c.html)) m.push("default Lucide icons");
+  if (/(?:from|to|via)-(?:purple|indigo|violet|fuchsia)-\d/i.test(c.html)) m.push("default purple/indigo gradient");
+  if (/backdrop-blur/i.test(c.html)) m.push("default glassmorphism");
+  return m;
+}
+
 /* ------------------------------------------------------------------ *
  * 1. BUILDER WATERMARKS — the strongest, highest-confidence signals.
  * ------------------------------------------------------------------ */
@@ -156,35 +181,23 @@ const watermarkDetectors: Detector[] = [
   },
 
   (c) => {
-    // Next.js default stack signatures (the agent default).
+    // Next.js — only a tell when paired with untouched stock defaults.
+    // Next.js itself runs plenty of bespoke sites, so framework presence
+    // alone scores nothing.
     const tells: string[] = [];
     if (/\/_next\/static\//.test(c.html)) tells.push("/_next/static/ assets");
     if (/__NEXT_DATA__/.test(c.html)) tells.push("__NEXT_DATA__ payload");
     if (/self\.__next_f/.test(c.html)) tells.push("Next.js RSC stream (__next_f)");
     if ((c.headers["x-powered-by"] || "").toLowerCase().includes("next")) tells.push("x-powered-by: Next.js");
     if (!tells.length) return null;
+    const markers = uncustomizedMarkers(c);
+    if (markers.length === 0) return null; // Next.js, but clearly customised → not a tell
     return {
       id: "nextjs",
-      label: "Next.js — the default framework coding agents reach for",
+      label: "Next.js shipped with stock defaults (the untouched agent reflex)",
       category: "watermark",
-      points: Math.min(12, 5 + tells.length * 2),
-      evidence: ev(tells),
-    };
-  },
-
-  (c) => {
-    // Vercel hosting (overwhelmingly the agent default deploy target).
-    const tells: string[] = [];
-    if (c.headers["x-vercel-id"]) tells.push("x-vercel-id header");
-    if (/x-vercel/i.test(JSON.stringify(c.headers))) tells.push("vercel edge headers");
-    if ((c.headers["server"] || "").toLowerCase().includes("vercel")) tells.push("server: Vercel");
-    if (!tells.length) return null;
-    return {
-      id: "vercel",
-      label: "Hosted on Vercel (default agent deploy target)",
-      category: "watermark",
-      points: 6,
-      evidence: ev(tells),
+      points: Math.min(9, 3 + markers.length * 2),
+      evidence: ev([...markers, ...tells.slice(0, 2)]),
     };
   },
 
@@ -217,13 +230,18 @@ const stackDetectors: Detector[] = [
       /\bclass(?:Name)?=["'][^"']*\b(?:flex|grid|gap-\d|px-\d|py-\d|mx-auto|rounded-(?:lg|xl|2xl|3xl|full)|text-(?:sm|lg|xl|2xl|3xl|4xl|5xl|6xl)|font-(?:medium|semibold|bold)|items-center|justify-(?:center|between)|space-y-\d|tracking-tight|leading-)/g
     );
     if (utils.length < 6) return null;
-    const pts = Math.min(8, 3 + Math.floor(utils.length / 12));
+    // Tailwind alone isn't a tell — it's the most popular CSS framework going.
+    // Only score it when the stock theme is also untouched (default tokens,
+    // shadcn, Geist…). Tailwind + a genuine custom design scores nothing.
+    const markers = uncustomizedMarkers(c);
+    if (markers.length === 0) return null;
+    const pts = Math.min(8, 2 + Math.floor(utils.length / 16) + markers.length);
     return {
       id: "tailwind",
-      label: "Tailwind CSS utility-class soup (the agent default styling)",
+      label: "Tailwind run with the stock theme (utility soup + default tokens)",
       category: "stack",
       points: pts,
-      evidence: ev([`${utils.length} Tailwind-style utility classes detected`]),
+      evidence: ev([`${utils.length} utility classes`, ...markers]),
     };
   },
 
