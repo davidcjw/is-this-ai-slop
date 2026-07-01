@@ -35,21 +35,20 @@ function verdictColor(score: number): string {
 
 /* Animated counting number for the big score reveal. */
 function CountUp({ value }: { value: number }) {
-  const [display, setDisplay] = useState(0);
+  const [animated, setAnimated] = useState(0);
   const reduce = useReducedMotion();
   useEffect(() => {
-    if (reduce) {
-      setDisplay(value);
-      return;
-    }
+    // With reduced motion there's nothing to animate; the value is rendered
+    // directly below, so the effect doesn't touch state in that case.
+    if (reduce) return;
     const controls = animate(0, value, {
       duration: 1.1,
       ease: [0.16, 1, 0.3, 1],
-      onUpdate: (v) => setDisplay(Math.round(v)),
+      onUpdate: (v) => setAnimated(Math.round(v)),
     });
     return () => controls.stop();
   }, [value, reduce]);
-  return <>{display}</>;
+  return <>{reduce ? value : animated}</>;
 }
 
 function CategoryBar({ cat, index }: { cat: CategoryScore; index: number }) {
@@ -180,9 +179,10 @@ export default function Analyzer() {
   const reduce = useReducedMotion();
 
   // Cycle through scan phases while loading for a sense of "work happening".
+  // The phase is reset to 0 in run() when loading starts, so the effect only
+  // sets up the interval (no synchronous setState in the effect body).
   useEffect(() => {
     if (status !== "loading") return;
-    setPhase(0);
     const id = setInterval(() => setPhase((p) => Math.min(p + 1, SCAN_PHASES.length - 1)), 700);
     return () => clearInterval(id);
   }, [status]);
@@ -190,6 +190,7 @@ export default function Analyzer() {
   async function run(e?: React.FormEvent) {
     e?.preventDefault();
     if (!url.trim() || status === "loading") return;
+    setPhase(0);
     setStatus("loading");
     setError(null);
     setResult(null);
