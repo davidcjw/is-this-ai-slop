@@ -35,20 +35,23 @@ function verdictColor(score: number): string {
 
 /* Animated counting number for the big score reveal. */
 function CountUp({ value }: { value: number }) {
-  const [display, setDisplay] = useState(0);
   const reduce = useReducedMotion();
+  // With reduced motion there's nothing to animate — render the value directly
+  // rather than syncing it into state via an effect.
+  if (reduce) return <>{value}</>;
+  return <AnimatedCountUp value={value} />;
+}
+
+function AnimatedCountUp({ value }: { value: number }) {
+  const [display, setDisplay] = useState(0);
   useEffect(() => {
-    if (reduce) {
-      setDisplay(value);
-      return;
-    }
     const controls = animate(0, value, {
       duration: 1.1,
       ease: [0.16, 1, 0.3, 1],
       onUpdate: (v) => setDisplay(Math.round(v)),
     });
     return () => controls.stop();
-  }, [value, reduce]);
+  }, [value]);
   return <>{display}</>;
 }
 
